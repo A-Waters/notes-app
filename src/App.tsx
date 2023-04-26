@@ -5,11 +5,21 @@ import "./App.css";
 
 function App() {
   const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
+  const [path, setPath] = useState("");
 
-  async function greet() {
+  async function get_file() {
     // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke("greet", { name }));
+    let file = ""
+    //await invoke("get_files", { path } ).then((res : unknown) : void => {
+    //  const myArray = res as string[];
+    //  console.log(path, myArray);
+    //  file = path +'/'+ myArray[2];
+    // });
+    
+    console.log(file)
+    await invoke("read_file", { filepath: path }).then((res: unknown) => {
+      console.log(res)
+    }).catch((res: unknown) => alert(res));
   }
 
   return (
@@ -34,15 +44,15 @@ function App() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            greet();
+            get_file();
           }}
         >
           <input
             id="greet-input"
-            onChange={(e) => setName(e.currentTarget.value)}
-            placeholder="Enter a name..."
+            onChange={(e) => setPath(e.currentTarget.value)}
+            placeholder="Enter a path..."
           />
-          <button type="submit">Greet</button>
+          <button type="submit">Load File</button>
         </form>
       </div>
       <p>{greetMsg}</p>
