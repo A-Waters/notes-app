@@ -1,11 +1,19 @@
+import { useContext, useEffect, useState } from "react";
+
+import pieceTableInstance from "../PieceTable/pieceTable";
+
 function TextWriter() {
+    //const {output, input} = useContext(reactContext)
+    const [text, setText] = useState(pieceTableInstance.output());
+        
     return (
-        <input
-            type="text"
-            value={this.state.value}
-            onChange={this.handleChange}
-         />
-     );
+        <>
+            <div>
+            <p>{text}</p>
+            <button onClick={()=>setText(pieceTableInstance.output())}>Update</button>
+            </div>
+        </>
+    );
 
 }
 
