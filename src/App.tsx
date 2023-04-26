@@ -10,14 +10,29 @@ import pieceTableInstance from './PieceTable/pieceTable'
 // export const reactContext = React.createContext(pieceTableInstance)
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
+
   const [path, setPath] = useState(""); 
   
-  useEffect(() => {pieceTableInstance.input("This is a test string")}, [])
+  async function load_file() {
+    await invoke("read_file", { filepath: path }).then((res:unknown) => {
+      console.log
+      let text : string = res as string
+      pieceTableInstance.input(text)
+    }).catch((res: unknown) => alert(res));
+  }
+
+
+  useEffect(() => {load_file()}, [path])
 
   return (
     <div className="container">     
       <TextWriter></TextWriter>
+      <input
+        id="file_load_button"
+        onChange={(e) => setPath(e.currentTarget.value)}
+        placeholder="Enter a path..."
+      />
+    <button type="submit">Load File</button>
     </div>
   );
 }
